@@ -20,6 +20,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "ethernetif.h"
+#include "lwip/netif.h"
+#include "lwip/tcpip.h"
+#include "app_ethernet.h"
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -34,10 +38,13 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 static GPIO_InitTypeDef  GPIO_InitStruct;
+struct netif gnetif; /* network interface structure */
 
 /* Private function prototypes -----------------------------------------------*/
 static void SystemClock_Config(void);
 static void Error_Handler(void);
+static void StartThread(void const * argument);
+static void Netif_Config(void);
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -66,6 +73,16 @@ int main(void)
   /* Configure the system clock to 180 MHz */
   SystemClock_Config();
   
+    /* Init thread */
+#if defined(__GNUC__)
+  osThreadDef(Start, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+#else
+  osThreadDef(Start, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+#endif
+  
+  osThreadCreate (osThread(Start), NULL);
+  
+  
   /* -1- Enable GPIO Clock (to be able to program the configuration registers) */
   LED1_GPIO_CLK_ENABLE();
   LED2_GPIO_CLK_ENABLE();
@@ -79,6 +96,9 @@ int main(void)
   HAL_GPIO_Init(LED1_GPIO_PORT, &GPIO_InitStruct);
   GPIO_InitStruct.Pin = LED2_PIN;
   HAL_GPIO_Init(LED2_GPIO_PORT, &GPIO_InitStruct);
+  
+  /* Start scheduler */
+  osKernelStart();
 
   /* -3- Toggle IO in an infinite loop */
   while (1)
@@ -157,6 +177,76 @@ static void SystemClock_Config(void)
   {
     /* Initialization Error */
     Error_Handler();
+  }
+}
+
+/**
+  * @brief  Initializes the lwIP stack
+  * @param  None
+  * @retval None
+  */
+static void Netif_Config(void)
+{
+  ip_addr_t ipaddr;
+  ip_addr_t netmask;
+  ip_addr_t gw;
+	
+#ifdef USE_DHCP
+  ip_addr_set_zero_ip4(&ipaddr);
+  ip_addr_set_zero_ip4(&netmask);
+  ip_addr_set_zero_ip4(&gw);
+#else
+  IP_ADDR4(&ipaddr,IP_ADDR0,IP_ADDR1,IP_ADDR2,IP_ADDR3);
+  IP_ADDR4(&netmask,NETMASK_ADDR0,NETMASK_ADDR1,NETMASK_ADDR2,NETMASK_ADDR3);
+  IP_ADDR4(&gw,GW_ADDR0,GW_ADDR1,GW_ADDR2,GW_ADDR3);
+#endif /* USE_DHCP */
+    
+  netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
+  
+  /*  Registers the default network interface. */
+  netif_set_default(&gnetif);
+  
+  if (netif_is_link_up(&gnetif))
+  {
+    /* When the netif is fully configured this function must be called.*/
+    netif_set_up(&gnetif);
+  }
+  else
+  {
+    /* When the netif link is down this function must be called */
+    netif_set_down(&gnetif);
+  }
+}
+
+/**
+  * @brief  Start Thread 
+  * @param  argument not used
+  * @retval None
+  */
+static void StartThread(void const * argument)
+{
+  /* Create tcp_ip stack thread */
+  tcpip_init(NULL, NULL);
+  
+  /* Initialize the LwIP stack */
+  Netif_Config();
+  
+  /* Initialize webserver demo */
+  // http_server_netconn_init();
+  
+  /* Notify user about the network interface config */
+  User_notification(&gnetif);
+  
+#ifdef USE_DHCP
+  /* Start DHCPClient */
+  osThreadDef(DHCP, DHCP_thread, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
+  osThreadCreate (osThread(DHCP), &gnetif);
+#endif
+
+  for( ;; )
+  {
+    /* Delete the Init Thread */ 
+    osThreadTerminate(NULL);
   }
 }
 

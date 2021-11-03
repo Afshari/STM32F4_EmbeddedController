@@ -25,8 +25,29 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_nucleo_144.h"
 
+#include "cmsis_os.h"
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
+
+/*Static IP ADDRESS*/
+#define IP_ADDR0   (uint8_t) 192
+#define IP_ADDR1   (uint8_t) 168
+#define IP_ADDR2   (uint8_t) 1
+#define IP_ADDR3   (uint8_t) 23
+   
+/*NETMASK*/
+#define NETMASK_ADDR0   (uint8_t) 255
+#define NETMASK_ADDR1   (uint8_t) 255
+#define NETMASK_ADDR2   (uint8_t) 255
+#define NETMASK_ADDR3   (uint8_t) 0
+
+/*Gateway Address*/
+#define GW_ADDR0   (uint8_t) 192
+#define GW_ADDR1   (uint8_t) 168
+#define GW_ADDR2   (uint8_t) 1
+#define GW_ADDR3   (uint8_t) 1 
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
