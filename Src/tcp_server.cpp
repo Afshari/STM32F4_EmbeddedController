@@ -4,7 +4,7 @@
 #include "lwip/debug.h"
 #include "lwip/stats.h"
 #include "lwip/tcp.h"
-
+#include <string>
 
 #if LWIP_TCP
 
@@ -28,7 +28,7 @@ struct tcp_server_struct {
 };
 
 // static function<void(struct pbuf *p)> s_reverse;
-function<string (struct pbuf *p)> response_handler;
+function<std::string (struct pbuf *p)> response_handler;
 
 //static void reverse_data(struct pbuf *p) {
 //
@@ -191,7 +191,7 @@ static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     es->state = ES_RECEIVED;
 
     /* store reference to incoming pbuf (chain) */
-    string str = response_handler(p);
+    // string str = response_handler(p);
 
     es->p = p;
 
@@ -208,7 +208,7 @@ static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     /* more data received from client and previous data has been already sent*/
     if(es->p == NULL)
     {
-    	response_handler(p);
+    	// response_handler(p);
     	es->p = p;
 
       /* send back received data */
