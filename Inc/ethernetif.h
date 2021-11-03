@@ -28,4 +28,5 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 err_t ethernetif_init(struct netif *netif);
+void Netif_Config(void);
 #endif

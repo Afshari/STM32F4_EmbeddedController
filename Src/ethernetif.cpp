@@ -16,6 +16,8 @@
   *
   ******************************************************************************
   */
+
+	
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "lwip/timeouts.h"
@@ -23,13 +25,16 @@
 #include "netif/etharp.h"
 #include "ethernetif.h"
 #include <string.h>
-
+#include "main.h"
+	
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* The time to block waiting for input. */
 #define TIME_WAITING_FOR_INPUT                 ( osWaitForever )
 /* Stack size of the interface thread */
 #define INTERFACE_THREAD_STACK_SIZE            ( 350 )
+
+struct netif gnetif;
 
 /* Define those to better describe your network interface. */
 #define IFNAME0 's'
@@ -65,6 +70,39 @@ ETH_HandleTypeDef EthHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 static void ethernetif_input( void const * argument );
+
+void Netif_Config(void)
+{
+  ip_addr_t ipaddr;
+  ip_addr_t netmask;
+  ip_addr_t gw;
+	
+#ifdef USE_DHCP
+  ip_addr_set_zero_ip4(&ipaddr);
+  ip_addr_set_zero_ip4(&netmask);
+  ip_addr_set_zero_ip4(&gw);
+#else
+  IP_ADDR4(&ipaddr,IP_ADDR0,IP_ADDR1,IP_ADDR2,IP_ADDR3);
+  IP_ADDR4(&netmask,NETMASK_ADDR0,NETMASK_ADDR1,NETMASK_ADDR2,NETMASK_ADDR3);
+  IP_ADDR4(&gw,GW_ADDR0,GW_ADDR1,GW_ADDR2,GW_ADDR3);
+#endif /* USE_DHCP */
+    
+  netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
+  
+  /*  Registers the default network interface. */
+  netif_set_default(&gnetif);
+  
+  if (netif_is_link_up(&gnetif))
+  {
+    /* When the netif is fully configured this function must be called.*/
+    netif_set_up(&gnetif);
+  }
+  else
+  {
+    /* When the netif link is down this function must be called */
+    netif_set_down(&gnetif);
+  }
+}
 
 /* Private functions ---------------------------------------------------------*/
 /*******************************************************************************
@@ -458,4 +496,5 @@ u32_t sys_now(void)
 {
   return HAL_GetTick();
 }
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

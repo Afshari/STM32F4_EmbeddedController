@@ -40,7 +40,10 @@ typedef int sys_prot_t;
 
 #define LWIP_PROVIDE_ERRNO
 
-#if defined (__GNUC__) & !defined (__CC_ARM)
+#define __forceinline __attribute__((always_inline))
+
+// #if defined (__GNUC__) & !defined (__CC_ARM)
+#if defined (GNUC) && !defined (__CC_ARM) && !(defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050))
 
 #define LWIP_TIMEVAL_PRIVATE 0
 #include <sys/time.h>
