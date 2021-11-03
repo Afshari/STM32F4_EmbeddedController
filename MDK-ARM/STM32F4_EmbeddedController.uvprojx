@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F429xx,USE_STM32F4XX_NUCLEO_144</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Src;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/BSP/STM32F4xx_Nucleo_144;../Drivers/BSP/Components/Common;../Middlewares/Third_Party/LwIP/src/include/;../Middlewares/Third_Party/LwIP/system;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../../../../../../Utilities;../../../../../../Utilities/Log;..\Inc\Classes</IncludePath>
+              <IncludePath>../Inc;../Src;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/BSP/STM32F4xx_Nucleo_144;../Drivers/BSP/Components/Common;../Middlewares/Third_Party/LwIP/src/include/;../Middlewares/Third_Party/LwIP/system;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../../../../../../Utilities;../../../../../../Utilities/Log;..\Inc\Classes;..\Inc\Math</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -832,6 +832,16 @@
         </Group>
         <Group>
           <GroupName>Application/Tests</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Middlewares/Math</GroupName>
+          <Files>
+            <File>
+              <FileName>add.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\Math\add.cpp</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
