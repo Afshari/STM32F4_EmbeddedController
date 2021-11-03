@@ -25,6 +25,7 @@
 #include "lwip/tcpip.h"
 #include "app_ethernet.h"
 #include "tcp_server.h"
+#include "debug_swv.h"
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -74,6 +75,10 @@ int main(void)
   /* Configure the system clock to 180 MHz */
   SystemClock_Config();
   
+	DebugSWV::print_debug("Let's Test");
+	DebugSWV::print_debug("OK Mohsen You did it !");
+	
+	
     /* Init thread */
 #if defined(__GNUC__)
   osThreadDef(Start, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);

@@ -189,7 +189,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F429xx,USE_STM32F4XX_NUCLEO_144</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Src;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/BSP/STM32F4xx_Nucleo_144;../Drivers/BSP/Components/Common;../Middlewares/Third_Party/LwIP/src/include/;../Middlewares/Third_Party/LwIP/system;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../../../../../../Utilities;../../../../../../Utilities/Log</IncludePath>
+              <IncludePath>../Inc;../Src;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/BSP/STM32F4xx_Nucleo_144;../Drivers/BSP/Components/Common;../Middlewares/Third_Party/LwIP/src/include/;../Middlewares/Third_Party/LwIP/system;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../../../../../../Utilities;../../../../../../Utilities/Log;..\Inc\Classes</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -814,6 +814,24 @@
               <FilePath>..\Src\tcp_server.cpp</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/Classes</GroupName>
+          <Files>
+            <File>
+              <FileName>debug_swv.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\Classes\debug_swv.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>input_parser.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\Classes\input_parser.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/Tests</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
