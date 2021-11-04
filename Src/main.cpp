@@ -26,6 +26,7 @@
 #include "app_ethernet.h"
 #include "tcp_server.h"
 #include "debug_swv.h"
+#include "Tests/tests_runner.h"
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -74,9 +75,12 @@ int main(void)
 
   /* Configure the system clock to 180 MHz */
   SystemClock_Config();
+
   
-	DebugSWV::print_debug("Let's Test");
-	DebugSWV::print_debug("OK Mohsen You did it !");
+#ifdef TEST_ENV
+	TestsRunner testsRunner;
+	testsRunner.run();
+#endif
 	
 	
     /* Init thread */
