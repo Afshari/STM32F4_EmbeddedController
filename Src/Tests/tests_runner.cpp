@@ -21,6 +21,9 @@ void TestsRunner::run() {
 	TestInvertedPendulum test_inverted_pendulum;
 	test_inverted_pendulum.init();
 	
+	TestRobustSuspension test_robust_suspension;
+	test_robust_suspension.init();
+	
 	while(1);
 
 }
