@@ -18,6 +18,9 @@ void TestsRunner::run() {
 	TestLinearAlgebra test_linear_algebra;
 	test_linear_algebra.init();
 
+	TestInvertedPendulum test_inverted_pendulum;
+	test_inverted_pendulum.init();
+	
 	while(1);
 
 }

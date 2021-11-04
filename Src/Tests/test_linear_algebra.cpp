@@ -34,11 +34,11 @@ void TestLinearAlgebra::testAdd() {
 											4, 5, 7,
 											6, 2, 3 } );		
 
-	shared_ptr<vector<double>> C = make_shared<vector<double>>();
+	vector<double> C;
 
 	add( A, B, C, 3, 3 );
 											
-	checkEqual( ref_C, *C, 0.1, " ");
+	checkEqual( ref_C, C, 0.1, " ");
 											
 }
 
@@ -57,11 +57,11 @@ void TestLinearAlgebra::testSub() {
 											4, 5, 7,
 											6, 2, 3 } );		
 
-	shared_ptr<vector<double>> C = make_shared<vector<double>>();
+	vector<double> C;
 
 	sub( A, B, C, 3, 3 );
 											
-	checkEqual( ref_C, *C, 0.1, " ");
+	checkEqual( ref_C, C, 0.1, " ");
 }
 
 
@@ -95,11 +95,11 @@ void TestLinearAlgebra::testMul_1() {
 											4, 5, 7,
 											6, 2, 3 } );		
 
-	shared_ptr<vector<double>> C = make_shared<vector<double>>();
+	vector<double> C;
 
 	mul( A, B, C, 3, 3, 3 );
 											
-	checkEqual( ref_C, *C, 0.1, " ");
+	checkEqual( ref_C, C, 0.1, " ");
 }
 
 void TestLinearAlgebra::testMul_2() {
@@ -116,11 +116,11 @@ void TestLinearAlgebra::testMul_2() {
 											4,
 											6, } );		
 
-	shared_ptr<vector<double>> C = make_shared<vector<double>>();
+	vector<double> C;
 
 	mul( A, B, C, 3, 3, 1 );
 											
-	checkEqual( ref_C, *C, 0.1, " ");
+	checkEqual( ref_C, C, 0.1, " ");
 }
 
 
@@ -136,11 +136,11 @@ void TestLinearAlgebra::testMul_3() {
 											4,
 											6, } );			
 
-	shared_ptr<vector<double>> C = make_shared<vector<double>>();
+	vector<double> C;
 
 	mul( B, A, C, 3, 1, 3 );
 											
-	checkEqual( ref_C, *C, 0.1, " ");
+	checkEqual( ref_C, C, 0.1, " ");
 }
 
 void TestLinearAlgebra::testMul_4() {
@@ -153,11 +153,11 @@ void TestLinearAlgebra::testMul_4() {
 											4,
 											6, } );		
 
-	shared_ptr<vector<double>> C = make_shared<vector<double>>();
+	vector<double> C;
 
 	mul( A, B, C, 1, 3, 1 );
 											
-	checkEqual( ref_C, *C, 0.1, " ");
+	checkEqual( ref_C, C, 0.1, " ");
 }
 
 

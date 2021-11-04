@@ -833,6 +833,11 @@
               <FileType>8</FileType>
               <FilePath>..\Src\Classes\network_data_handler.cpp</FilePath>
             </File>
+            <File>
+              <FileName>inverted_pendulum.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\Classes\inverted_pendulum.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -887,6 +892,11 @@
               <FileName>test_linear_algebra.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Src\Tests\test_linear_algebra.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>test_inverted_pendulum.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\Tests\test_inverted_pendulum.cpp</FilePath>
             </File>
           </Files>
         </Group>
