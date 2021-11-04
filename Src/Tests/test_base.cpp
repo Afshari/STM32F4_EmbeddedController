@@ -4,7 +4,7 @@
 
 TestBase::TestBase() {
 
-	print_debug(" >>>>> Initializing Unit Tests <<<<< ");
+	print_debug(" >>>>> Initializing Unit Test <<<<< ");
 
 	failure = 0;
 	success = 0;
@@ -118,31 +118,6 @@ bool TestBase::checkEqual(float value1, float value2, float tol, string msg) {
 }
 
 
-bool TestBase::checkEqual(arm_matrix_instance_f32 value1, arm_matrix_instance_f32 value2, float tolerance, std::string msg) {
-
-	bool isEqual = true;
-
-	if(value1.numCols != value2.numCols || value1.numRows != value2.numRows)
-		isEqual = false;
-
-	for(int i = 0; i < value1.numRows * value1.numCols; i++) {
-
-		if( fabsf(value1.pData[i] - value2.pData[i]) > tolerance ) {
-			isEqual = false;
-			break;
-		}
-	}
-
-	if(isEqual) success += 1;
-	else {
-		failure += 1;
-		printf("FAILURE: %s", msg.c_str());
-	}
-
-
-	return isEqual;
-}
-
 bool TestBase::checkEqual(double *value1, double *value2, int numRows, int numCols, float tolerance, string msg) {
 
 	bool isEqual = true;
@@ -166,6 +141,29 @@ bool TestBase::checkEqual(double *value1, double *value2, int numRows, int numCo
 	return isEqual;
 }
 
+
+bool TestBase::checkEqual(const vector<double> &value1, const vector<double> &value2, float tolerance, string msg) {
+
+	bool isEqual = true;
+
+
+	for(int i = 0; i < value1.size(); i++) {
+
+		if( abs(value1.at(i) - value2.at(i)) > tolerance ) {
+			isEqual = false;
+			break;
+		}
+	}
+
+	if(isEqual) success += 1;
+	else {
+		failure += 1;
+		printf("FAILURE: %s", msg.c_str());
+	}
+
+
+	return isEqual;
+}
 
 
 

@@ -15,6 +15,8 @@ void TestsRunner::run() {
 	TestNetworkDataHandler test_data_network_handler;
 	test_data_network_handler.init();
 
+	TestLinearAlgebra test_linear_algebra;
+	test_linear_algebra.init();
 
 	while(1);
 

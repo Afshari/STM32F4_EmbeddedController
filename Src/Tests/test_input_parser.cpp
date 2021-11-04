@@ -3,8 +3,6 @@
 
 TestInputParser::TestInputParser() : TestBase() {
 
-	print_debug(" 'Input Parser' --> Unit Test is Running ....");
-
 }
 
 
@@ -15,9 +13,7 @@ void TestInputParser::init() {
 	testGetDataVector();
 
 
-	print_debug("Class -> InputParser -- Total Number of Test: %d -- Success: %d -- Failure: %d",
-			this->failure + this->success, this->success, this->failure);
-	print_debug("---------------------");
+	printReport("Network Data Handler");
 }
 
 
