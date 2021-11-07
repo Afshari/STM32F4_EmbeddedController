@@ -18,15 +18,17 @@ class InvertedPendulum {
 	
 public:
 	InvertedPendulum();
+
 	void initialize(const vector<double> &wr);
 	double u(const vector<double> &y);
 	shared_ptr<vector<double>> pendcart(const vector<double> &y);
 	void rungeKutta4(const vector<double> &y0, int n, double h);
+
 	int getDataSize();
 	pair<double, double> getData(int idx);
 
-	static const int STEP_SIZE 	= 40;
-	static const int ITEM_PER_STEP = 1;
+	static const int STEP_SIZE 	= 20;
+	static const int ITEM_PER_STEP = 40;
 
 protected:
 

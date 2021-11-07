@@ -6,8 +6,6 @@
 #include "lwip/tcp.h"
 #include <string>
 
-#if LWIP_TCP
-
 static struct tcp_pcb *tcp_server_pcb;
 
 /* protocol states */
@@ -54,7 +52,7 @@ static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_
   * @param  None
   * @retval None
   */
-void tcp_server_init() {
+void tcp_server_init(function<string (struct pbuf*)> _response_handler) {
 
   /* create new tcp pcb */
   tcp_server_pcb = tcp_new();
@@ -74,7 +72,7 @@ void tcp_server_init() {
       /* initialize LwIP tcp_accept callback function */
       tcp_accept(tcp_server_pcb, tcp_server_accept);
       // s_reverse = m_reverse;
-      // response_handler = _response_handler;
+      response_handler = _response_handler;
     }
     else
     {
@@ -191,7 +189,7 @@ static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     es->state = ES_RECEIVED;
 
     /* store reference to incoming pbuf (chain) */
-    // string str = response_handler(p);
+    response_handler(p);
 
     es->p = p;
 
@@ -208,7 +206,7 @@ static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     /* more data received from client and previous data has been already sent*/
     if(es->p == NULL)
     {
-    	// response_handler(p);
+    	response_handler(p);
     	es->p = p;
 
       /* send back received data */
@@ -420,8 +418,6 @@ static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_
   /* close tcp connection */
   tcp_close(tpcb);
 }
-
-#endif /* LWIP_TCP */
 
 
 

@@ -60,6 +60,7 @@ shared_ptr<vector<double>> InvertedPendulum::pendcart(const vector<double> &y) {
 void InvertedPendulum::rungeKutta4(const vector<double> &y0, int n, double h) {
 
 		values = make_unique<vector<pair<double, double>>>( n / STEP_SIZE );
+		printf("vector size: %d\r\n", values->size() );
 		int values_idx = 0;
 
 		vector<double> y(4 * 1);

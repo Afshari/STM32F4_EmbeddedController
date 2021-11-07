@@ -1,22 +1,4 @@
-/**
-  ******************************************************************************
-  * @file    GPIO/GPIO_IOToggle/Src/main.c
-  * @author  MCD Application Team
-  * @brief   This example describes how to configure and use GPIOs through
-  *          the STM32F4xx HAL API.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -25,30 +7,25 @@
 #include "lwip/tcpip.h"
 #include "app_ethernet.h"
 #include "tcp_server.h"
-#include "debug_swv.h"
 #include "Tests/tests_runner.h"
+#include "app_handler.h"
+#include "FreeRTOS.h"
 
-/** @addtogroup STM32F4xx_HAL_Examples
-  * @{
-  */
-
-/** @addtogroup GPIO_IOToggle
-  * @{
-  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 static GPIO_InitTypeDef  GPIO_InitStruct;
-//struct netif gnetif; /* network interface structure */
 
 /* Private function prototypes -----------------------------------------------*/
 static void SystemClock_Config(void);
 static void Error_Handler(void);
 static void StartThread(void const * argument);
-// static void Netif_Config(void);
 
+static string network_response_handler(struct pbuf *p);
+NetworkDataHandler network_data_handler;
+AppHandler app_handler;
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -58,19 +35,7 @@ static void StartThread(void const * argument);
   */
 int main(void)
 {
-  /* This sample code shows how to use GPIO HAL API to toggle LED1 and LED2 IOs
-    in an infinite loop. */
 
-  /* STM32F4xx HAL library initialization:
-       - Configure the Flash prefetch
-       - Systick timer is configured by default as source of time base, but user 
-         can eventually implement his proper time base source (a general purpose 
-         timer for example or other time source), keeping in mind that Time base 
-         duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-         handled in milliseconds basis.
-       - Set NVIC Group Priority to 4
-       - Low Level Initialization
-     */
   HAL_Init();
 
   /* Configure the system clock to 180 MHz */
@@ -85,40 +50,18 @@ int main(void)
 	
     /* Init thread */
 #if defined(__GNUC__)
-  osThreadDef(Start, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+  osThreadDef(Start, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 #else
   osThreadDef(Start, StartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 #endif
   
   osThreadCreate (osThread(Start), NULL);
   
-  
-  /* -1- Enable GPIO Clock (to be able to program the configuration registers) */
-  LED1_GPIO_CLK_ENABLE();
-  LED2_GPIO_CLK_ENABLE();
-
-  /* -2- Configure IO in output push-pull mode to drive external LEDs */
-  GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull  = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-
-  GPIO_InitStruct.Pin = LED1_PIN;
-  HAL_GPIO_Init(LED1_GPIO_PORT, &GPIO_InitStruct);
-  GPIO_InitStruct.Pin = LED2_PIN;
-  HAL_GPIO_Init(LED2_GPIO_PORT, &GPIO_InitStruct);
-  
   /* Start scheduler */
   osKernelStart();
 
   /* -3- Toggle IO in an infinite loop */
-  while (1)
-  {
-    HAL_GPIO_TogglePin(LED1_GPIO_PORT, LED1_PIN);
-    /* Insert delay 100 ms */
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
-    /* Insert delay 100 ms */
-    HAL_Delay(100);
+  while (1) {
   }
 }
 
@@ -201,25 +144,38 @@ static void StartThread(void const * argument)
   
   /* Initialize the LwIP stack */
   Netif_Config();
-	tcp_server_init();
+	tcp_server_init(network_response_handler);
   
-  /* Initialize webserver demo */
-  // http_server_netconn_init();
   
   /* Notify user about the network interface config */
   // User_notification(&gnetif);
-  
-#ifdef USE_DHCP
-  /* Start DHCPClient */
-  osThreadDef(DHCP, DHCP_thread, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
-  osThreadCreate (osThread(DHCP), &gnetif);
-#endif
+
 
   for( ;; )
   {
     /* Delete the Init Thread */ 
     osThreadTerminate(NULL);
   }
+}
+
+static string network_response_handler(struct pbuf *p) {
+
+	string str( (char*) p->payload );
+	str = str.substr(0, p->len);
+	printf("Recv: %s\r\n", str.c_str());
+	NetworkDataStatus status = network_data_handler.process(str);
+	if(status == NetworkDataStatus::Complete) {
+
+		string result = app_handler.processData(network_data_handler.getProcessedData());
+
+		// printf("Result: %s", result.c_str());
+
+		p->payload = (void *) result.c_str();
+		p->len = result.length();
+		p->tot_len = result.length();
+	}
+
+	return "";
 }
 
 /**
