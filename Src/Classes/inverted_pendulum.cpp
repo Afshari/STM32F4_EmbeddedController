@@ -119,11 +119,6 @@ void InvertedPendulum::rungeKutta4(const vector<double> &y0, int n, double h) {
 
 			add(y, sum_k, y, 4, 1);
 
-//			delete [] k1;
-//			delete [] k2;
-//			delete [] k3;
-//			delete [] k4;
-//			delete [] sum_k;
 
 			if(i % STEP_SIZE == 0) {
 				pair<double, double> val(y[0], y[2]);
