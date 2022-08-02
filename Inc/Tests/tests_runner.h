@@ -4,7 +4,6 @@
 
 #include "Tests/test_input_parser.h"
 #include "Tests/test_network_data_handler.h"
-#include "Tests/test_linear_algebra.h"
 #include "Tests/test_inverted_pendulum.h"
 #include "Tests/test_robust_suspension.h"
 #include "Tests/test_matrix.h"

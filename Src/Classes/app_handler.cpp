@@ -3,16 +3,15 @@
 
 AppHandler::AppHandler() {
 
-	initialize();
 }
 
 
-void AppHandler::initialize() {
+void AppHandler::initialize(shared_ptr<InputParser> parser, shared_ptr<RobustSuspension> robust_suspension, 
+		shared_ptr<InvertedPendulum> inverted_pendulum) {
 
-	parser = make_unique<InputParser>();
-	robust_suspension = make_unique<RobustSuspension>();
-	robust_suspension->initialize();
-	inverted_pendulum = make_unique<InvertedPendulum>();
+	this->parser = parser;
+	this->robust_suspension = robust_suspension;
+	this->inverted_pendulum = inverted_pendulum;
 }
 
 string AppHandler::processData(const string &data) {
@@ -48,10 +47,7 @@ string AppHandler::processData(const string &data) {
 				double w    = std::atof(strW.c_str());
 				double ms   = std::atof(strMs.c_str());
 
-				//shared_ptr<vector<double>> x = robust_suspension->active(ms, w);
 				Matrix x = robust_suspension->active(ms, w);
-				// double v1 = x->at(0);
-				// double v2 = x->at(1);
 
 				if(result_value != "")
 						result_value += ",";
@@ -61,12 +57,12 @@ string AppHandler::processData(const string &data) {
 
 	if(code == 210) {
 		
-		Matrix wr = parser->getVector4d( data.substr( indices->at(1), indices->at(2) - indices->at(1) - 1 ) );
-		Matrix y0 = parser->getVector4d( data.substr( indices->at(2), indices->at(3) - indices->at(2) - 1 ) );
+		Matrix wr = parser->getVector4d(data.substr(indices->at(1), indices->at(2) - indices->at(1) - 1));
+		Matrix y0 = parser->getVector4d(data.substr(indices->at(2), indices->at(3) - indices->at(2) - 1));
 
-		string init_data = data.substr( indices->at(3), data.length() - indices->at(3) );
+		string init_data = data.substr(indices->at(3), data.length() - indices->at(3));
 		indices = parser->getIndices(init_data, ",");
-		int n = std::atoi( init_data.substr( indices->at(0),    indices->at(1) - indices->at(0) - 1 ).c_str() );
+		int n = std::atoi( init_data.substr( indices->at(0), indices->at(1) - indices->at(0) - 1 ).c_str() );
 		double h = std::atof( init_data.substr( indices->at(1), init_data.length() - indices->at(1) ).c_str() );
 
 		inverted_pendulum->initialize(wr);

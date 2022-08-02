@@ -19,13 +19,13 @@ class InvertedPendulum {
 public:
 	InvertedPendulum();
 
-	void initialize(const Matrix &wr);
-	double u(Matrix y);
-	Matrix pendcart(Matrix y);
-	void rungeKutta4(const Matrix &y0, int n, double h);
+	virtual void initialize(const Matrix &wr);
+	virtual double u(Matrix y);
+	virtual Matrix pendcart(Matrix y);
+	virtual void rungeKutta4(const Matrix &y0, int n, double h);
 
-	int getDataSize();
-	pair<double, double> getData(int idx);
+	virtual int getDataSize();
+	virtual pair<double, double> getData(int idx);
 
 	static const int STEP_SIZE 	= 20;
 	static const int ITEM_PER_STEP = 40;

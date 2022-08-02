@@ -4,7 +4,10 @@
 
 #include <string>
 #include <memory>
+
+#ifndef GTEST
 #include "stm32f4xx_hal.h"
+#endif
 
 #include "app.h"
 #include "input_parser.h"
@@ -18,14 +21,15 @@ using std::tuple;
 class AppHandler {
 public:
 	AppHandler();
-	void initialize();
+	void initialize(shared_ptr<InputParser> parser, shared_ptr<RobustSuspension> robust_suspension, 
+		shared_ptr<InvertedPendulum> inverted_pendulum);
 	string processData(const string &data);
 
 
 protected:
-	unique_ptr<InputParser> parser;
-	unique_ptr<RobustSuspension> robust_suspension;
-	unique_ptr<InvertedPendulum> inverted_pendulum;
+	shared_ptr<InputParser> parser;
+	shared_ptr<RobustSuspension> robust_suspension;
+	shared_ptr<InvertedPendulum> inverted_pendulum;
 
 	int pendulum_counter  =   0;
 

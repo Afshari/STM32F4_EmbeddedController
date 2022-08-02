@@ -19,8 +19,8 @@ public:
 	
 		RobustSuspension();
 	
-		void initialize();
-    Matrix active(double ms, double w);
+		virtual void initialize();
+    virtual Matrix active(double ms, double w);
 
 protected:
 

@@ -26,6 +26,9 @@ static void StartThread(void const * argument);
 static string network_response_handler(struct pbuf *p);
 NetworkDataHandler network_data_handler;
 AppHandler app_handler;
+shared_ptr<InputParser> parser;
+shared_ptr<InvertedPendulum> inverted_pendulum;
+shared_ptr<RobustSuspension> robust_suspension;
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -47,6 +50,10 @@ int main(void)
 	testsRunner.run();
 #endif
 	
+	parser = make_shared<InputParser>();
+	inverted_pendulum = make_shared<InvertedPendulum>();
+	robust_suspension = make_shared<RobustSuspension>();
+	app_handler.initialize(parser, robust_suspension, inverted_pendulum);
 	
     /* Init thread */
 #if defined(__GNUC__)
@@ -60,7 +67,6 @@ int main(void)
   /* Start scheduler */
   osKernelStart();
 
-  /* -3- Toggle IO in an infinite loop */
   while (1) {
   }
 }
@@ -167,7 +173,6 @@ static string network_response_handler(struct pbuf *p) {
 	if(status == NetworkDataStatus::Complete) {
 
 		string result = app_handler.processData(network_data_handler.getProcessedData());
-
 		// printf("Result: %s", result.c_str());
 
 		pbuf_free(p);
@@ -220,4 +225,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   * @}
   */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
