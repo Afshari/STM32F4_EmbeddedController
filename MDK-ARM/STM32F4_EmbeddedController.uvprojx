@@ -849,24 +849,9 @@
           <GroupName>Middlewares/Math</GroupName>
           <Files>
             <File>
-              <FileName>scale.cpp</FileName>
+              <FileName>matrix.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Src\Math\scale.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>sub.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\Math\sub.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>mul.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\Math\mul.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>add.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\Math\add.cpp</FilePath>
+              <FilePath>..\Src\Math\matrix.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -894,11 +879,6 @@
               <FilePath>..\Src\Tests\test_network_data_handler.cpp</FilePath>
             </File>
             <File>
-              <FileName>test_linear_algebra.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Src\Tests\test_linear_algebra.cpp</FilePath>
-            </File>
-            <File>
               <FileName>test_inverted_pendulum.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Src\Tests\test_inverted_pendulum.cpp</FilePath>
@@ -907,6 +887,11 @@
               <FileName>test_robust_suspension.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Src\Tests\test_robust_suspension.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>test_matrix.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\Tests\test_matrix.cpp</FilePath>
             </File>
           </Files>
         </Group>

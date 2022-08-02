@@ -5,7 +5,7 @@
 #include <memory>
 #include <cmath>
 
-#include "linalg.h"
+#include "matrix.h"
 
 using std::unique_ptr;
 using std::make_unique;
@@ -19,10 +19,10 @@ class InvertedPendulum {
 public:
 	InvertedPendulum();
 
-	void initialize(const vector<double> &wr);
-	double u(const vector<double> &y);
-	shared_ptr<vector<double>> pendcart(const vector<double> &y);
-	void rungeKutta4(const vector<double> &y0, int n, double h);
+	void initialize(const Matrix &wr);
+	double u(Matrix y);
+	Matrix pendcart(Matrix y);
+	void rungeKutta4(const Matrix &y0, int n, double h);
 
 	int getDataSize();
 	pair<double, double> getData(int idx);
@@ -41,8 +41,10 @@ protected:
     double g   =   -10;
     double d   =   1;
 
-    vector<double> K;
-    vector<double> wr;
+    //vector<double> K;
+    //vector<double> wr;
+		Matrix K  { 1, 1 };
+		Matrix wr { 1, 1 };
 
     friend class TestInvertedPendulum;
 

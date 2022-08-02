@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "stm32f4xx_hal.h"
+#include "matrix.h"
 
 using std::vector;
 using std::string;
@@ -31,6 +32,7 @@ protected:
 	bool checkEqual(float value1, float value2, float tol, string msg = "");
 	bool checkEqual(double *value1, double *value2, int numRows, int numCols, float tolerance = 0, string msg = "");
 	bool checkEqual(const vector<double> &value1, const vector<double> &value2, float tolerance = 0, string msg = "");
+	bool checkEqual(const Matrix &value1, const Matrix &value2, float tolerance = 0, string msg = "");
 
 
 	void printReport(const char *test_name);

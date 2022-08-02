@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-#include "linalg.h"
+#include "matrix.h"
 
 using std::unique_ptr;
 using std::make_unique;
@@ -20,7 +20,7 @@ public:
 		RobustSuspension();
 	
 		void initialize();
-    shared_ptr<vector<double>> active(double ms, double w);
+    Matrix active(double ms, double w);
 
 protected:
 
@@ -36,14 +36,21 @@ protected:
     const int      nb     = 0;             // maximum value of time with nonzero ground variation
 
     const double   x1r = 0.01;               // constant reference suspension deflection
-    vector<double> ur = { 42720 * x1r };
-    vector<double> u  = { 0 };
+    //vector<double> ur = { 42720 * x1r };
+    //vector<double> u  = { 0 };
+		Matrix ur { 1, 1, { 42720 * x1r } };
+		Matrix u  { 1, 1, { 0 } };
 
-    vector<double>  xr;
-    vector<double>  xp;
-    vector<double>  x;
-    vector<double> 	D;
-    vector<double> 	K;
+		//vector<double>  xr;
+		//vector<double>  xp;
+		//vector<double>  x;
+		//vector<double> 	D;
+		//vector<double> 	K;
+		Matrix xr { 1, 1 };
+		Matrix xp { 1, 1 };
+		Matrix x  { 1, 1 };
+		Matrix D  { 1, 1 };
+		Matrix K  { 1, 1 };
 
 
     const double mu =   113.6;                   // unsprung mass

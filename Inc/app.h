@@ -1,14 +1,15 @@
-/*
- * app.h
- *
- *  Created on: Oct 26, 2021
- *      Author: mohsen
- */
 
 #ifndef _INC_APP_H_
 #define _INC_APP_H_
 
-#define TEST_ENV
+// [ ] - Create Matrix Class like SensorFusion Project
+// [ ] - Re-run the Tests after Creating Matrix Class
+// [#] - Run Tests to see the Results
+// [#] - Find function to allocate memory for network --> pbuf_alloc
+// [#] - Read document of pbuf_realloc --> enlarging not yet supported
+// [#] - find pbuf_alloc usage in the whole project		--> ethernetif.cpp
+
+// #define TEST_ENV
 
 #define MAX_STRING_LENGTH  1000
 

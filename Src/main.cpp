@@ -170,9 +170,9 @@ static string network_response_handler(struct pbuf *p) {
 
 		// printf("Result: %s", result.c_str());
 
-		p->payload = (void *) result.c_str();
-		p->len = result.length();
-		p->tot_len = result.length();
+		pbuf_free(p);
+		p = pbuf_alloc(PBUF_RAW, result.length(), PBUF_POOL);
+		p->payload = (void *) result.c_str();	
 	}
 
 	return "";

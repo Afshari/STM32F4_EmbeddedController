@@ -15,8 +15,10 @@ void TestsRunner::run() {
 	TestNetworkDataHandler test_data_network_handler;
 	test_data_network_handler.init();
 
-	TestLinearAlgebra test_linear_algebra;
-	test_linear_algebra.init();
+	//TestLinearAlgebra test_linear_algebra;
+	//test_linear_algebra.init();
+	TestMatrix test_matrix;
+	test_matrix.init();
 
 	TestInvertedPendulum test_inverted_pendulum;
 	test_inverted_pendulum.init();

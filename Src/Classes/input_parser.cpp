@@ -57,13 +57,14 @@ bool InputParser::trim(string &data) {
 }
 
 
-shared_ptr<vector<float>> InputParser::getDataVector(const string& data, int start_index, int len) {
+Matrix InputParser::getDataVector(const string& data, int start_index, int len) {
 
     string token = data.substr(start_index, len);
     auto indices = getIndices(token, ",");
 
-    shared_ptr<vector<float>> state = make_shared<vector<float>>(); // (indices->size());
-    state->resize(indices->size());
+    //shared_ptr<vector<float>> state = make_shared<vector<float>>(); // (indices->size());
+    //state->resize(indices->size());
+		Matrix state { (int)indices->size(), 1 };
 
     string currState = "";
     for(auto i = 0U; i < indices->size(); i++) {
@@ -75,22 +76,23 @@ shared_ptr<vector<float>> InputParser::getDataVector(const string& data, int sta
         }
         float x = std::stof( currState );
 
-        state->at(i) = x;
+        state.set(x, i, 0);
     }
 
     return state;
 }
 
-shared_ptr<vector<double>> InputParser::getVector4d(const string &data) {
+Matrix InputParser::getVector4d(const string &data) {
 
     auto indices = getIndices( data, "," );
 
-    shared_ptr<vector<double>> result = make_shared<vector<double>>(4);
+    //shared_ptr<vector<double>> result = make_shared<vector<double>>(4);
+		Matrix result { 4, 1 };
 
-    result->at(0) = std::atof( data.substr( indices->at(0), indices->at(1) - indices->at(0) - 1 ).c_str() );
-    result->at(1) = std::atof( data.substr( indices->at(1), indices->at(2) - indices->at(1) - 1 ).c_str() );
-    result->at(2) = std::atof( data.substr( indices->at(2), indices->at(3) - indices->at(2) - 1 ).c_str() );
-    result->at(3) = std::atof( data.substr( indices->at(3), data.length()  - indices->at(3)     ).c_str() );
+    result.set(std::atof( data.substr( indices->at(0), indices->at(1) - indices->at(0) - 1 ).c_str() ), 0, 0);
+    result.set(std::atof( data.substr( indices->at(1), indices->at(2) - indices->at(1) - 1 ).c_str() ), 1, 0);
+    result.set(std::atof( data.substr( indices->at(2), indices->at(3) - indices->at(2) - 1 ).c_str() ), 2, 0);
+    result.set(std::atof( data.substr( indices->at(3), data.length()  - indices->at(3)     ).c_str() ), 3, 0);
 
     return result;
 }

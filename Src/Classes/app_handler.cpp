@@ -25,13 +25,13 @@ string AppHandler::processData(const string &data) {
 	int start_index = indices->at(1);
 	int len = data.length() - indices->at(1);
 
-	if(code == 101) {
+	if(code == 200) {
 		robust_suspension->initialize();
 	}
 
-	if(code == 101 || code == 102) {
+	if(code == 200 || code == 201) {
 
-		shared_ptr<vector<float>> params = parser->getDataVector(data, start_index, len);
+		Matrix params = parser->getDataVector(data, start_index, len);
 		string curr_data = data.substr(start_index, len);
 
 		indices = parser->getIndices( curr_data, "," );
@@ -48,20 +48,21 @@ string AppHandler::processData(const string &data) {
 				double w    = std::atof(strW.c_str());
 				double ms   = std::atof(strMs.c_str());
 
-				shared_ptr<vector<double>> x = robust_suspension->active(ms, w);
+				//shared_ptr<vector<double>> x = robust_suspension->active(ms, w);
+				Matrix x = robust_suspension->active(ms, w);
 				// double v1 = x->at(0);
 				// double v2 = x->at(1);
 
 				if(result_value != "")
 						result_value += ",";
-				result_value += std::to_string(x->at(0)) + "," + std::to_string(x->at(1));
+				result_value += std::to_string(x.at(0, 0)) + "," + std::to_string(x.at(1, 0));
 		}
 	}
 
-	if(code == 111) {
+	if(code == 210) {
 		
-		vector<double> wr = *parser->getVector4d( data.substr( indices->at(1), indices->at(2) - indices->at(1) - 1 ) );
-		vector<double> y0 = *parser->getVector4d( data.substr( indices->at(2), indices->at(3) - indices->at(2) - 1 ) );
+		Matrix wr = parser->getVector4d( data.substr( indices->at(1), indices->at(2) - indices->at(1) - 1 ) );
+		Matrix y0 = parser->getVector4d( data.substr( indices->at(2), indices->at(3) - indices->at(2) - 1 ) );
 
 		string init_data = data.substr( indices->at(3), data.length() - indices->at(3) );
 		indices = parser->getIndices(init_data, ",");
@@ -74,7 +75,7 @@ string AppHandler::processData(const string &data) {
 		pendulum_counter = 0;
 	}
 
-	if(code == 111 || code == 112) {
+	if(code == 210 || code == 211) {
 
 			if( (pendulum_counter+1) * InvertedPendulum::ITEM_PER_STEP <= inverted_pendulum->getDataSize() ) {
 
