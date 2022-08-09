@@ -72,10 +72,10 @@ $ .\gTestEmbeddedController.exe
 ```
 
 ### 7. Dependencies
-[Embedded App Interface](https://github.com/Afshari/Embedded_App_Interface)
+To see the results of the Embedded Device, I used "[Embedded App Interface](https://github.com/Afshari/Embedded_App_Interface)." For more information, you can see the Github page. 
 
 ### 8. Demonstration Video
-You can watch the [Demonstration Video](https://www.youtube.com/watch?v=0Pw5bWvN9Bc) on the Youtube.
+You can watch the [Demonstration Video](https://www.youtube.com/watch?v=Km_E-MVQTGk) on the Youtube.
 
 ### 9. References
 ~~~
